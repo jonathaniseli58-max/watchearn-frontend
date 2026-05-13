@@ -1,0 +1,475 @@
+import { useState, useEffect, useRef } from "react";
+
+const ADS = [
+  { id: 1, brand: "Nike", title: "Just Do It 2026", reward: 0.15, duration: 30, color: "#FF4500", emoji: "👟" },
+  { id: 2, brand: "Spotify", title: "Musique Sans Limite", reward: 0.10, duration: 20, color: "#1DB954", emoji: "🎵" },
+  { id: 3, brand: "Amazon", title: "Deals du Jour", reward: 0.20, duration: 35, color: "#FF9900", emoji: "📦" },
+  { id: 4, brand: "Netflix", title: "Ce Soir Sur Netflix", reward: 0.12, duration: 25, color: "#E50914", emoji: "🎬" },
+  { id: 5, brand: "Apple", title: "iPhone 17 Pro", reward: 0.25, duration: 40, color: "#A8A8A8", emoji: "📱" },
+  { id: 6, brand: "Adidas", title: "Impossible Is Nothing", reward: 0.18, duration: 30, color: "#000000", emoji: "⚽" },
+];
+
+const HISTORY = [
+  { brand: "Samsung", reward: 0.20, time: "il y a 2h" },
+  { brand: "McDonald's", reward: 0.10, time: "il y a 5h" },
+  { brand: "Coca-Cola", reward: 0.15, time: "hier" },
+];
+
+export default function WatchEarn() {
+  const [screen, setScreen] = useState("home"); // home | watching | success | withdraw
+  const [balance, setBalance] = useState(3.47);
+  const [currentAd, setCurrentAd] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [history, setHistory] = useState(HISTORY);
+  const [withdrawEmail, setWithdrawEmail] = useState("");
+  const [withdrawDone, setWithdrawDone] = useState(false);
+  const [earned, setEarned] = useState(null);
+  const intervalRef = useRef(null);
+
+  const watchAd = (ad) => {
+    setCurrentAd(ad);
+    setProgress(0);
+    setTimeLeft(ad.duration);
+    setScreen("watching");
+  };
+
+  useEffect(() => {
+    if (screen === "watching" && currentAd) {
+      intervalRef.current = setInterval(() => {
+        setProgress((p) => {
+          const next = p + 100 / currentAd.duration;
+          if (next >= 100) {
+            clearInterval(intervalRef.current);
+            setBalance((b) => +(b + currentAd.reward).toFixed(2));
+            setHistory((h) => [{ brand: currentAd.brand, reward: currentAd.reward, time: "à l'instant" }, ...h]);
+            setEarned(currentAd.reward);
+            setScreen("success");
+            return 100;
+          }
+          return next;
+        });
+        setTimeLeft((t) => Math.max(0, t - 1));
+      }, 1000);
+    }
+    return () => clearInterval(intervalRef.current);
+  }, [screen, currentAd]);
+
+  const handleWithdraw = () => {
+    if (withdrawEmail && balance >= 5) {
+      setWithdrawDone(true);
+    }
+  };
+
+  return (
+    <div style={{
+      minHeight: "100vh",
+      background: "#0A0A0F",
+      color: "#F0F0F0",
+      fontFamily: "'Syne', sans-serif",
+      display: "flex",
+      flexDirection: "column",
+      maxWidth: 420,
+      margin: "0 auto",
+      position: "relative",
+      overflow: "hidden",
+    }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        ::-webkit-scrollbar { display: none; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+        @keyframes slideUp { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
+        @keyframes coinPop { 0%{transform:scale(0) rotate(-20deg);opacity:0} 60%{transform:scale(1.3) rotate(5deg)} 100%{transform:scale(1) rotate(0);opacity:1} }
+        @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
+        @keyframes glow { 0%,100%{box-shadow:0 0 20px #00E5A020} 50%{box-shadow:0 0 40px #00E5A060} }
+        .ad-card:hover { transform: translateY(-4px) scale(1.01); transition: all 0.25s ease; }
+        .watch-btn:hover { filter: brightness(1.15); transform: scale(1.03); }
+        .tab-btn { transition: all 0.2s ease; }
+        .tab-btn:hover { opacity: 0.8; }
+      `}</style>
+
+      {/* Background glow */}
+      <div style={{
+        position: "fixed", top: -100, left: "50%", transform: "translateX(-50%)",
+        width: 500, height: 300,
+        background: "radial-gradient(ellipse, #00E5A015 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
+
+      {/* Header */}
+      <header style={{
+        padding: "20px 24px 16px",
+        borderBottom: "1px solid #1A1A2A",
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        position: "sticky", top: 0, zIndex: 10,
+        background: "#0A0A0Fdd", backdropFilter: "blur(12px)",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{
+            width: 36, height: 36, borderRadius: 10,
+            background: "linear-gradient(135deg, #00E5A0, #00B4D8)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: 18,
+          }}>▶</div>
+          <span style={{ fontSize: 20, fontWeight: 800, letterSpacing: "-0.5px" }}>WatchEarn</span>
+        </div>
+        <div style={{
+          background: "#111120", border: "1px solid #00E5A030",
+          borderRadius: 12, padding: "8px 16px",
+          display: "flex", alignItems: "center", gap: 8,
+          animation: "glow 3s ease infinite",
+        }}>
+          <span style={{ fontSize: 14, color: "#00E5A0", fontFamily: "'DM Mono', monospace", fontWeight: 500 }}>
+            💰 {balance.toFixed(2)} €
+          </span>
+        </div>
+      </header>
+
+      {/* WATCHING SCREEN */}
+      {screen === "watching" && currentAd && (
+        <div style={{
+          position: "fixed", inset: 0, zIndex: 100,
+          background: "#050508",
+          display: "flex", flexDirection: "column",
+          alignItems: "center", justifyContent: "center",
+          padding: 32,
+          animation: "slideUp 0.3s ease",
+        }}>
+          {/* Ad visual */}
+          <div style={{
+            width: 280, height: 280, borderRadius: 32,
+            background: `radial-gradient(circle at 30% 30%, ${currentAd.color}40, ${currentAd.color}10)`,
+            border: `2px solid ${currentAd.color}50`,
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center",
+            marginBottom: 32, gap: 12,
+            boxShadow: `0 0 80px ${currentAd.color}30`,
+          }}>
+            <span style={{ fontSize: 72 }}>{currentAd.emoji}</span>
+            <span style={{ fontSize: 24, fontWeight: 800, color: "#fff" }}>{currentAd.brand}</span>
+            <span style={{ fontSize: 14, color: "#ffffff80", textAlign: "center" }}>{currentAd.title}</span>
+            <div style={{
+              background: "#ffffff15", borderRadius: 20, padding: "4px 14px",
+              fontSize: 13, color: "#fff",
+              animation: "pulse 1.5s ease infinite",
+            }}>
+              ● PUB EN COURS
+            </div>
+          </div>
+
+          {/* Timer */}
+          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 42, fontWeight: 500, marginBottom: 8, color: "#fff" }}>
+            {timeLeft}s
+          </div>
+          <div style={{ fontSize: 14, color: "#ffffff50", marginBottom: 28 }}>
+            Regardez jusqu'à la fin pour gagner
+          </div>
+
+          {/* Reward preview */}
+          <div style={{
+            background: "#00E5A015", border: "1px solid #00E5A030",
+            borderRadius: 16, padding: "12px 28px",
+            fontSize: 22, fontWeight: 700, color: "#00E5A0",
+            marginBottom: 32, fontFamily: "'DM Mono', monospace",
+          }}>
+            +{currentAd.reward.toFixed(2)} €
+          </div>
+
+          {/* Progress bar */}
+          <div style={{ width: "100%", height: 6, background: "#1A1A2A", borderRadius: 99, overflow: "hidden" }}>
+            <div style={{
+              height: "100%", borderRadius: 99,
+              width: `${progress}%`,
+              background: "linear-gradient(90deg, #00E5A0, #00B4D8)",
+              transition: "width 0.9s linear",
+              boxShadow: "0 0 10px #00E5A080",
+            }} />
+          </div>
+          <div style={{ fontSize: 12, color: "#ffffff30", marginTop: 8 }}>
+            Ne fermez pas cette fenêtre
+          </div>
+        </div>
+      )}
+
+      {/* SUCCESS SCREEN */}
+      {screen === "success" && (
+        <div style={{
+          position: "fixed", inset: 0, zIndex: 100,
+          background: "#050508",
+          display: "flex", flexDirection: "column",
+          alignItems: "center", justifyContent: "center",
+          padding: 32,
+          animation: "slideUp 0.3s ease",
+        }}>
+          <div style={{ fontSize: 80, marginBottom: 24, animation: "coinPop 0.6s ease" }}>🎉</div>
+          <div style={{ fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Bravo !</div>
+          <div style={{ fontSize: 15, color: "#ffffff60", marginBottom: 32, textAlign: "center" }}>
+            Vous avez regardé la pub {currentAd?.brand}
+          </div>
+          <div style={{
+            fontSize: 52, fontWeight: 800, color: "#00E5A0",
+            fontFamily: "'DM Mono', monospace",
+            animation: "coinPop 0.6s ease 0.2s both",
+          }}>
+            +{earned?.toFixed(2)} €
+          </div>
+          <div style={{ fontSize: 14, color: "#ffffff40", marginTop: 8, marginBottom: 40 }}>
+            Nouveau solde : {balance.toFixed(2)} €
+          </div>
+          <button onClick={() => setScreen("home")} style={{
+            background: "linear-gradient(135deg, #00E5A0, #00B4D8)",
+            color: "#000", border: "none", borderRadius: 16,
+            padding: "16px 48px", fontSize: 16, fontWeight: 700,
+            cursor: "pointer", fontFamily: "'Syne', sans-serif",
+          }}>
+            Continuer à gagner →
+          </button>
+        </div>
+      )}
+
+      {/* WITHDRAW SCREEN */}
+      {screen === "withdraw" && (
+        <div style={{ padding: 24, animation: "slideUp 0.3s ease", flex: 1 }}>
+          <button onClick={() => setScreen("home")} style={{
+            background: "none", border: "none", color: "#ffffff60",
+            fontSize: 14, cursor: "pointer", marginBottom: 24, fontFamily: "'Syne', sans-serif",
+          }}>← Retour</button>
+
+          <div style={{ fontSize: 26, fontWeight: 800, marginBottom: 6 }}>Retrait PayPal</div>
+          <div style={{ fontSize: 14, color: "#ffffff50", marginBottom: 32 }}>
+            Minimum : 5.00 € — Votre solde : <span style={{ color: "#00E5A0" }}>{balance.toFixed(2)} €</span>
+          </div>
+
+          {!withdrawDone ? (
+            <>
+              {balance < 5 && (
+                <div style={{
+                  background: "#FF450015", border: "1px solid #FF450040",
+                  borderRadius: 14, padding: 16, marginBottom: 24,
+                  fontSize: 14, color: "#FF9060",
+                }}>
+                  ⚠️ Solde insuffisant. Il vous manque {(5 - balance).toFixed(2)} € pour retirer.
+                </div>
+              )}
+
+              <div style={{ marginBottom: 16 }}>
+                <div style={{ fontSize: 13, color: "#ffffff60", marginBottom: 8 }}>Email PayPal</div>
+                <input
+                  type="email"
+                  placeholder="vous@exemple.com"
+                  value={withdrawEmail}
+                  onChange={(e) => setWithdrawEmail(e.target.value)}
+                  style={{
+                    width: "100%", background: "#111120",
+                    border: "1px solid #2A2A3A", borderRadius: 12,
+                    padding: "14px 16px", color: "#fff", fontSize: 15,
+                    fontFamily: "'DM Mono', monospace", outline: "none",
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: 32 }}>
+                <div style={{ fontSize: 13, color: "#ffffff60", marginBottom: 8 }}>Montant</div>
+                <div style={{
+                  width: "100%", background: "#111120",
+                  border: "1px solid #2A2A3A", borderRadius: 12,
+                  padding: "14px 16px", color: "#00E5A0", fontSize: 22,
+                  fontFamily: "'DM Mono', monospace", fontWeight: 700,
+                }}>
+                  {balance.toFixed(2)} €
+                </div>
+              </div>
+
+              <button onClick={handleWithdraw} disabled={balance < 5 || !withdrawEmail} style={{
+                width: "100%",
+                background: balance >= 5 && withdrawEmail
+                  ? "linear-gradient(135deg, #00E5A0, #00B4D8)"
+                  : "#1A1A2A",
+                color: balance >= 5 && withdrawEmail ? "#000" : "#ffffff30",
+                border: "none", borderRadius: 16,
+                padding: "18px", fontSize: 16, fontWeight: 700,
+                cursor: balance >= 5 && withdrawEmail ? "pointer" : "not-allowed",
+                fontFamily: "'Syne', sans-serif",
+              }}>
+                Envoyer via PayPal
+              </button>
+            </>
+          ) : (
+            <div style={{ textAlign: "center", animation: "slideUp 0.4s ease" }}>
+              <div style={{ fontSize: 64, marginBottom: 16 }}>✅</div>
+              <div style={{ fontSize: 22, fontWeight: 800, marginBottom: 8 }}>Demande envoyée !</div>
+              <div style={{ fontSize: 14, color: "#ffffff50", lineHeight: 1.6 }}>
+                {balance.toFixed(2)} € seront virés sur<br />
+                <span style={{ color: "#00E5A0" }}>{withdrawEmail}</span><br />
+                sous 24–48h ouvrées.
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* HOME SCREEN */}
+      {screen === "home" && (
+        <div style={{ flex: 1, overflowY: "auto", paddingBottom: 100 }}>
+          {/* Balance card */}
+          <div style={{ padding: "20px 24px 0" }}>
+            <div style={{
+              background: "linear-gradient(135deg, #111120, #0D1A2A)",
+              border: "1px solid #00E5A025",
+              borderRadius: 24, padding: "24px",
+              marginBottom: 8,
+              position: "relative", overflow: "hidden",
+            }}>
+              <div style={{
+                position: "absolute", top: -40, right: -40,
+                width: 140, height: 140,
+                background: "radial-gradient(circle, #00E5A015, transparent)",
+                borderRadius: "50%",
+              }} />
+              <div style={{ fontSize: 13, color: "#ffffff50", marginBottom: 6, letterSpacing: "0.1em" }}>
+                SOLDE DISPONIBLE
+              </div>
+              <div style={{
+                fontSize: 44, fontWeight: 800,
+                fontFamily: "'DM Mono', monospace",
+                background: "linear-gradient(135deg, #00E5A0, #00B4D8)",
+                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+                marginBottom: 16,
+              }}>
+                {balance.toFixed(2)} €
+              </div>
+              <button onClick={() => setScreen("withdraw")} style={{
+                background: balance >= 5
+                  ? "linear-gradient(135deg, #00E5A0, #00B4D8)"
+                  : "#1A1A2A",
+                color: balance >= 5 ? "#000" : "#ffffff40",
+                border: "none", borderRadius: 12,
+                padding: "12px 24px", fontSize: 14, fontWeight: 700,
+                cursor: "pointer", fontFamily: "'Syne', sans-serif",
+                transition: "all 0.2s",
+              }}>
+                {balance >= 5 ? "💸 Retirer via PayPal" : `🔒 Encore ${(5 - balance).toFixed(2)} € pour retirer`}
+              </button>
+            </div>
+
+            {/* Stats row */}
+            <div style={{ display: "flex", gap: 8, marginBottom: 24, marginTop: 8 }}>
+              {[
+                { label: "Pubs vues", value: history.length, icon: "👁" },
+                { label: "Ce mois", value: `${(history.reduce((a, b) => a + b.reward, 0) + balance).toFixed(2)}€`, icon: "📅" },
+                { label: "Niveau", value: "Silver", icon: "🥈" },
+              ].map((s) => (
+                <div key={s.label} style={{
+                  flex: 1, background: "#111120", border: "1px solid #1A1A2A",
+                  borderRadius: 14, padding: "12px 8px", textAlign: "center",
+                }}>
+                  <div style={{ fontSize: 18, marginBottom: 4 }}>{s.icon}</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, fontFamily: "'DM Mono', monospace" }}>{s.value}</div>
+                  <div style={{ fontSize: 11, color: "#ffffff40", marginTop: 2 }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Ads list */}
+          <div style={{ padding: "0 24px" }}>
+            <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
+              <span>Pubs disponibles</span>
+              <span style={{
+                background: "#00E5A020", color: "#00E5A0",
+                fontSize: 12, borderRadius: 99, padding: "2px 10px",
+              }}>{ADS.length} aujourd'hui</span>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {ADS.map((ad) => (
+                <div key={ad.id} className="ad-card" style={{
+                  background: "#111120",
+                  border: "1px solid #1A1A2A",
+                  borderRadius: 20, padding: "16px",
+                  display: "flex", alignItems: "center", gap: 14,
+                  cursor: "pointer",
+                  transition: "all 0.25s ease",
+                }}>
+                  <div style={{
+                    width: 52, height: 52, borderRadius: 14,
+                    background: `${ad.color}20`,
+                    border: `1px solid ${ad.color}40`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 26, flexShrink: 0,
+                  }}>
+                    {ad.emoji}
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 15, fontWeight: 700 }}>{ad.brand}</div>
+                    <div style={{ fontSize: 12, color: "#ffffff50", marginTop: 2 }}>{ad.title}</div>
+                    <div style={{ display: "flex", gap: 8, marginTop: 6 }}>
+                      <span style={{
+                        fontSize: 11, background: "#1A1A2A", borderRadius: 99,
+                        padding: "2px 8px", color: "#ffffff60",
+                      }}>⏱ {ad.duration}s</span>
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right", flexShrink: 0 }}>
+                    <div style={{
+                      fontSize: 18, fontWeight: 800, color: "#00E5A0",
+                      fontFamily: "'DM Mono', monospace",
+                    }}>+{ad.reward.toFixed(2)}€</div>
+                    <button className="watch-btn" onClick={() => watchAd(ad)} style={{
+                      marginTop: 6,
+                      background: `linear-gradient(135deg, ${ad.color}, ${ad.color}aa)`,
+                      color: "#fff", border: "none", borderRadius: 10,
+                      padding: "7px 14px", fontSize: 12, fontWeight: 700,
+                      cursor: "pointer", fontFamily: "'Syne', sans-serif",
+                      transition: "all 0.2s",
+                    }}>
+                      ▶ Voir
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* History */}
+          <div style={{ padding: "24px 24px 0" }}>
+            <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 16 }}>Historique</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {history.map((h, i) => (
+                <div key={i} style={{
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  padding: "12px 16px", background: "#111120",
+                  border: "1px solid #1A1A2A", borderRadius: 14,
+                }}>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 600 }}>{h.brand}</div>
+                    <div style={{ fontSize: 12, color: "#ffffff40" }}>{h.time}</div>
+                  </div>
+                  <div style={{
+                    fontSize: 16, fontWeight: 700, color: "#00E5A0",
+                    fontFamily: "'DM Mono', monospace",
+                  }}>+{h.reward.toFixed(2)} €</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bottom note */}
+      {screen === "home" && (
+        <div style={{
+          position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)",
+          width: "100%", maxWidth: 420,
+          background: "#0A0A0Fee", backdropFilter: "blur(12px)",
+          borderTop: "1px solid #1A1A2A",
+          padding: "12px 24px",
+          fontSize: 11, color: "#ffffff25", textAlign: "center",
+        }}>
+          Démo — En production, les pubs seraient fournies par Google AdMob / Unity Ads
+        </div>
+      )}
+    </div>
+  );
+}
