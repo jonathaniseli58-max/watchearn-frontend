@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>À Propos — WatchEarn</title>
+  <meta name="description" content="WatchEarn est une plateforme qui vous permet de gagner de l'argent réel en regardant des publicités. Découvrez comment ça marche et commencez à gagner aujourd'hui." />
+  <link rel="manifest" href="/manifest.json" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6405779707135951" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0A0A0F; color: #F0F0F0; font-family: 'Syne', sans-serif; max-width: 480px; margin: 0 auto; }
+    header { padding: 16px 20px; border-bottom: 1px solid #1A1A2A; display: flex; align-items: center; gap: 10px; position: sticky; top: 0; background: #0A0A0Fdd; backdrop-filter: blur(12px); z-index: 10; }
+    .logo { width: 32px; height: 32px; border-radius: 9px; background: linear-gradient(135deg,#00E5A0,#00B4D8); display: flex; align-items: center; justify-content: center; font-size: 15px; text-decoration: none; }
+    nav a { color: #ffffff60; text-decoration: none; font-size: 13px; margin-left: 16px; }
+    nav a:hover { color: #00E5A0; }
+    .hero { padding: 40px 20px 20px; text-align: center; }
+    .hero h1 { font-size: 32px; font-weight: 800; background: linear-gradient(135deg,#00E5A0,#00B4D8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; }
+    .hero p { font-size: 15px; color: #ffffff70; line-height: 1.7; }
+    section { padding: 32px 20px; border-top: 1px solid #1A1A2A; }
+    h2 { font-size: 22px; font-weight: 800; color: #00E5A0; margin-bottom: 16px; }
+    h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #fff; }
+    p { font-size: 14px; color: #ffffff80; line-height: 1.8; margin-bottom: 12px; }
+    .step { background: #111120; border: 1px solid #1A1A2A; border-radius: 16px; padding: 16px; margin-bottom: 12px; display: flex; gap: 14px; align-items: flex-start; }
+    .step-num { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg,#00E5A0,#00B4D8); display: flex; align-items: center; justify-content: center; font-weight: 800; color: #000; font-size: 16px; flex-shrink: 0; }
+    .faq-item { background: #111120; border: 1px solid #1A1A2A; border-radius: 14px; padding: 16px; margin-bottom: 10px; }
+    .faq-q { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .faq-a { font-size: 13px; color: #ffffff70; line-height: 1.7; }
+    .stat { text-align: center; background: #111120; border: 1px solid #00E5A025; border-radius: 16px; padding: 20px; flex: 1; }
+    .stat-val { font-size: 28px; font-weight: 800; color: #00E5A0; font-family: 'DM Mono', monospace; }
+    .stat-label { font-size: 12px; color: #ffffff50; margin-top: 4px; }
+    .stats-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    .cta { background: linear-gradient(135deg,#00E5A0,#00B4D8); color: #000; border: none; border-radius: 14px; padding: 16px 32px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Syne', sans-serif; text-decoration: none; display: inline-block; margin-top: 8px; }
+    .lang-switch { display: flex; gap: 8px; justify-content: center; margin: 16px 0; }
+    .lang-btn { background: #111120; border: 1px solid #1A1A2A; border-radius: 8px; padding: 6px 14px; font-size: 12px; cursor: pointer; color: #fff; font-family: 'Syne', sans-serif; }
+    .lang-btn.active { background: #00E5A020; border-color: #00E5A050; color: #00E5A0; }
+    .en { display: none; }
+    footer { padding: 24px 20px; text-align: center; border-top: 1px solid #1A1A2A; }
+    footer a { color: #ffffff40; text-decoration: none; font-size: 12px; margin: 0 8px; }
+    footer a:hover { color: #00E5A0; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">▶</a>
+  <span style="font-size:15px;font-weight:800">WatchEarn</span>
+  <nav style="margin-left:auto">
+    <a href="/">Accueil</a>
+    <a href="/blog.html">Blog</a>
+    <a href="/about.html" style="color:#00E5A0">À propos</a>
+  </nav>
+</header>
+
+<div class="lang-switch">
+  <button class="lang-btn active" onclick="setLang('fr')">🇫🇷 Français</button>
+  <button class="lang-btn" onclick="setLang('en')">🇬🇧 English</button>
+</div>
+
+<!-- FRANÇAIS -->
+<div class="fr">
+  <div class="hero">
+    <h1>À propos de WatchEarn</h1>
+    <p>WatchEarn est une plateforme innovante qui vous permet de gagner de l'argent réel en regardant des publicités. Simple, transparent et 100% gratuit.</p>
+  </div>
+
+  <section>
+    <h2>Notre mission</h2>
+    <p>Chez WatchEarn, nous croyons que votre temps a de la valeur. Chaque jour, des millions de publicités sont diffusées en ligne — nous vous permettons de bénéficier directement de ces revenus publicitaires.</p>
+    <p>Notre modèle est simple : les annonceurs paient pour toucher leur audience, et nous reversons une partie de ces revenus directement à nos utilisateurs via PayPal.</p>
+
+    <div class="stats-row">
+      <div class="stat"><div class="stat-val">0.10€</div><div class="stat-label">Gain minimum par pub</div></div>
+      <div class="stat"><div class="stat-val">5€</div><div class="stat-label">Seuil de retrait</div></div>
+    </div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-val">24h</div><div class="stat-label">Délai de virement</div></div>
+      <div class="stat"><div class="stat-val">100%</div><div class="stat-label">Gratuit</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Comment ça marche ?</h2>
+    <div class="step"><div class="step-num">1</div><div><h3>Créez un compte gratuit</h3><p>Inscrivez-vous en 30 secondes avec votre email. Aucune carte bancaire requise.</p></div></div>
+    <div class="step"><div class="step-num">2</div><div><h3>Regardez des publicités</h3><p>Choisissez une pub parmi celles disponibles et regardez-la jusqu'à la fin. Chaque pub dure entre 20 et 40 secondes.</p></div></div>
+    <div class="step"><div class="step-num">3</div><div><h3>Gagnez de l'argent</h3><p>Chaque pub regardée crédite automatiquement votre solde. Les gains varient de 0.10€ à 0.25€ par pub.</p></div></div>
+    <div class="step"><div class="step-num">4</div><div><h3>Retirez via PayPal</h3><p>Dès 5€ accumulés, demandez un virement sur votre compte PayPal. Traitement en 24-48h ouvrées.</p></div></div>
+  </section>
+
+  <section>
+    <h2>Questions fréquentes</h2>
+    <div class="faq-item"><div class="faq-q">🤔 Est-ce vraiment gratuit ?</div><div class="faq-a">Oui, WatchEarn est 100% gratuit. Vous ne payez jamais rien. Nos revenus proviennent uniquement des annonceurs.</div></div>
+    <div class="faq-item"><div class="faq-q">💰 Combien puis-je gagner par jour ?</div><div class="faq-a">Cela dépend du nombre de pubs disponibles et de votre temps. En regardant 10-20 pubs par jour, vous pouvez gagner entre 1€ et 5€ quotidiennement.</div></div>
+    <div class="faq-item"><div class="faq-q">🔒 Mes données sont-elles sécurisées ?</div><div class="faq-a">Absolument. Nous utilisons un chiffrement SSL et ne partageons jamais vos données personnelles avec des tiers.</div></div>
+    <div class="faq-item"><div class="faq-q">💸 Comment fonctionne le retrait PayPal ?</div><div class="faq-a">Dès que votre solde atteint 5€, vous pouvez demander un virement sur n'importe quel compte PayPal. Le virement arrive en 24-48h ouvrées.</div></div>
+    <div class="faq-item"><div class="faq-q">📱 Puis-je utiliser WatchEarn sur mon téléphone ?</div><div class="faq-a">Oui ! WatchEarn est une Progressive Web App (PWA) — vous pouvez l'installer sur votre écran d'accueil comme une vraie application mobile.</div></div>
+    <div class="faq-item"><div class="faq-q">🌍 Disponible dans quels pays ?</div><div class="faq-a">WatchEarn est disponible dans tous les pays où PayPal est accepté. Les revenus sont en euros (EUR).</div></div>
+  </section>
+
+  <section style="text-align:center">
+    <h2>Prêt à commencer ?</h2>
+    <p>Rejoignez WatchEarn aujourd'hui et commencez à gagner de l'argent en regardant des publicités.</p>
+    <a href="/" class="cta">Commencer gratuitement →</a>
+  </section>
+</div>
+
+<!-- ENGLISH -->
+<div class="en">
+  <div class="hero">
+    <h1>About WatchEarn</h1>
+    <p>WatchEarn is an innovative platform that lets you earn real money by watching advertisements. Simple, transparent and 100% free.</p>
+  </div>
+
+  <section>
+    <h2>Our Mission</h2>
+    <p>At WatchEarn, we believe your time has value. Every day, millions of ads are served online — we let you benefit directly from these advertising revenues.</p>
+    <p>Our model is simple: advertisers pay to reach their audience, and we share part of these revenues directly with our users via PayPal.</p>
+  </section>
+
+  <section>
+    <h2>How It Works</h2>
+    <div class="step"><div class="step-num">1</div><div><h3>Create a free account</h3><p>Sign up in 30 seconds with your email. No credit card required.</p></div></div>
+    <div class="step"><div class="step-num">2</div><div><h3>Watch ads</h3><p>Choose an available ad and watch it to the end. Each ad lasts between 20 and 40 seconds.</p></div></div>
+    <div class="step"><div class="step-num">3</div><div><h3>Earn money</h3><p>Each watched ad automatically credits your balance. Earnings range from €0.10 to €0.25 per ad.</p></div></div>
+    <div class="step"><div class="step-num">4</div><div><h3>Withdraw via PayPal</h3><p>Once you've accumulated €5, request a transfer to your PayPal account. Processing within 24-48 business hours.</p></div></div>
+  </section>
+
+  <section>
+    <h2>FAQ</h2>
+    <div class="faq-item"><div class="faq-q">🤔 Is it really free?</div><div class="faq-a">Yes, WatchEarn is 100% free. You never pay anything. Our revenues come exclusively from advertisers.</div></div>
+    <div class="faq-item"><div class="faq-q">💰 How much can I earn per day?</div><div class="faq-a">It depends on the number of available ads and your time. By watching 10-20 ads per day, you can earn between €1 and €5 daily.</div></div>
+    <div class="faq-item"><div class="faq-q">🔒 Is my data secure?</div><div class="faq-a">Absolutely. We use SSL encryption and never share your personal data with third parties.</div></div>
+    <div class="faq-item"><div class="faq-q">💸 How does PayPal withdrawal work?</div><div class="faq-a">Once your balance reaches €5, you can request a transfer to any PayPal account. Transfer arrives within 24-48 business hours.</div></div>
+    <div class="faq-item"><div class="faq-q">📱 Can I use WatchEarn on my phone?</div><div class="faq-a">Yes! WatchEarn is a Progressive Web App (PWA) — you can install it on your home screen like a real mobile application.</div></div>
+  </section>
+
+  <section style="text-align:center">
+    <h2>Ready to start?</h2>
+    <p>Join WatchEarn today and start earning money by watching ads.</p>
+    <a href="/" class="cta">Start for free →</a>
+  </section>
+</div>
+
+<!-- AdSense -->
+<div style="padding:16px 20px;text-align:center">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6405779707135951" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+</div>
+
+<footer>
+  <a href="/">Accueil</a>
+  <a href="/about.html">À propos</a>
+  <a href="/blog.html">Blog</a>
+  <a href="/privacy.html">Confidentialité</a>
+  <p style="margin-top:12px;font-size:11px;color:#ffffff20">© 2026 WatchEarn — Tous droits réservés</p>
+</footer>
+
+<script>
+function setLang(lang) {
+  document.querySelectorAll('.fr,.en').forEach(el => el.style.display = 'none');
+  document.querySelector('.' + lang).style.display = 'block';
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+}
+try{(adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}
+</script>
+</body>
+</html>
