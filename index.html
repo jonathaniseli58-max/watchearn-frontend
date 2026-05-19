@@ -151,7 +151,7 @@ function Auth(props){
     React.createElement("button",{
       onClick:function(){localStorage.setItem("we_lang",EN?"fr":"en");window.location.reload();},
       style:{marginTop:16,background:"#111120",border:"1px solid #2A2A3A",borderRadius:99,padding:"6px 14px",fontSize:12,cursor:"pointer",color:"#ffffff60",fontFamily:"'Syne',sans-serif"}
-    },EN?"🇫🇷 Français":"🇬🇧 English")
+    },EN?"FR Français":"EN English")
   );
 }
 
@@ -261,7 +261,7 @@ function App(){
         React.createElement("button",{
           onClick:function(){localStorage.setItem("we_lang",EN?"fr":"en");window.location.reload();},
           style:{background:"#1A1A2A",border:"1px solid #2A2A3A",borderRadius:8,padding:"4px 8px",fontSize:10,cursor:"pointer",color:"#ffffff60",fontFamily:"'Syne',sans-serif"}
-        },EN?"🇫🇷":"🇬🇧"),
+        },EN?"FR":"EN"),
         React.createElement("button",{onClick:logout,style:{background:"#1A1A2A",border:"none",borderRadius:8,padding:"5px 9px",color:"#ffffff50",fontSize:13,cursor:"pointer"}},"⎋")
       )
     ),
